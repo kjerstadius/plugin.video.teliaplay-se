@@ -903,6 +903,7 @@ class MenuList():
 
         items = []
         for episode in episodes:
+            episode = episode["episode"]
             try:
                 icon = urllib.parse.unquote(
                     episode["images"]["showcard2x3"]["source"]
@@ -1147,7 +1148,7 @@ class MenuList():
         else:
             is_live_vod = False
 
-        self.telia_play.validate_stream()
+        # self.telia_play.validate_stream()
         stream = self.telia_play.get_stream(stream_id, stream_type)
 
         is_helper = inputstreamhelper.Helper("mpd", drm="com.widevine.alpha")
@@ -1157,7 +1158,8 @@ class MenuList():
             play_item.setMimeType("application/dash+xml")
             play_item.setProperty("inputstream", is_helper.inputstream_addon)
             play_item.setProperty("inputstream.adaptive.manifest_type", "mpd")
-            if stream_type != "trailer":
+            drm = stream.get("drm")
+            if stream_type != "trailer" and drm["type"] != "NONE":
                 license_url = stream["drm"]["licenseUrl"]
                 license_headers = "User-Agent=kodi.tv&Content-Type=&{0}".format(
                     urllib.parse.urlencode(stream["drm"]["headers"])

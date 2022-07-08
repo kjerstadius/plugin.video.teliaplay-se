@@ -44,7 +44,8 @@ class TeliaPlay():
        return {
             "getMainMenu":      "f9c1eb6c91def27ee800da2296922d3798a54a8af32f79f25661afb621f1b45d",
             "search":           "dc9d71dbf7da4f5e5854d9e58e33274379581e07c353f8868cf0d7988c1330de",
-            "getPage":          "9bb1e827055ad3fa20a0a3bf652605f851dcdd34401ae24a3aea4b7b5ae257c4",
+            "getPage":          "c1e11abcff0c056d1b6ff555defb7b5fe57d0717af0ce0dcac6cbfe53eaf760c",
+            "getSubPages":      "7ac3e7c5068d79f9c4ef3c0e72a89e0b065091adb9971bf8b13f5437cf7051da",
             "getTvChannels":    "a16edac021bc6892ce4a17560cd364c716e1dd086fc4bd2a11e0b031577b3af7",
             "getTvChannel":     "9af1a674ce9482ca4d89b1bb623a5b69b725cf3c9c6565a93a6c7b04f443891b",
             "getStorePage":     "e2297df5af0241be95800fbb6758b502808cd00de3e10fdaed865e308e499f4e",
@@ -59,26 +60,50 @@ class TeliaPlay():
         request = {
             "POST": {
                 "scheme": "https",
-                "host": "ottapi.prod.telia.net",
-                "filename": "/web/se/logingateway/rest/v1/login"
+                "host": "logingateway-cmore.clientapi-prod.live.tv.telia.net",
+                "filename": "/logingateway/rest/v1/authenticate",
             }
         }
+        params = {
+            "redirectUri": "https://www.cmore.se/"
+        }
         headers = {
-            "User-Agent": "kodi.tv",
-            "tv-client-boot-id": self.tv_client_boot_id
+            "user-agent": "kodi.tv",
+            "referer": "https://login.cmore.se/",
+            "x-country": "SE"
         }
         payload = {
             "deviceId": self.device_id,
             "username": username,
             "password": password,
             "deviceType": "WEB",
-            "whiteLabelBrand": "TELIA"
+            "whiteLabelBrand": "CMORE"
         }
 
         response_json = self.web_utils.make_request(
-            request, headers=headers, payload=payload
+            request, headers=headers, payload=payload, params=params
         ).json()
         error_check(response_json)
+
+        token = response_json["redirectUri"].split("=")[1]
+        request = {
+            "POST": {
+                "scheme": "https",
+                "host": "logingateway.cmore.se",
+                "filename": "/logingateway/rest/v1/oauth/token",
+            }
+        }
+        params = {
+            "code": token
+        }
+        payload = {
+            "code": token
+        }
+        response_json = self.web_utils.make_request(
+            request, payload=payload, params=params
+        ).json()
+        error_check(response_json)
+
         self.token_data = response_json
         return response_json
 
@@ -155,7 +180,7 @@ class TeliaPlay():
         request = {
             "GET": {
                 "scheme": "https",
-                "host": "graphql-telia.t6a.net",
+                "host": "graphql-cmore.t6a.net",
                 "filename": "/graphql",
                 "query": {
                     "operationName": "getMainMenu",
@@ -188,7 +213,7 @@ class TeliaPlay():
         request = {
             "GET": {
                 "scheme": "https",
-                "host": "graphql-telia.t6a.net",
+                "host": "graphql-cmore.t6a.net",
                 "filename": "/graphql",
                 "query": {
                     "operationName": "search",
@@ -227,7 +252,7 @@ class TeliaPlay():
         request = {
             "GET": {
                 "scheme": "https",
-                "host": "graphql-telia.t6a.net",
+                "host": "graphql-cmore.t6a.net",
                 "filename": "/graphql",
                 "query": {
                     "operationName": "getPage",
@@ -262,7 +287,7 @@ class TeliaPlay():
         request = {
             "GET": {
                 "scheme": "https",
-                "host": "graphql-telia.t6a.net",
+                "host": "graphql-cmore.t6a.net",
                 "filename": "/graphql",
                 "query": {
                     "operationName": "getTvChannels",
@@ -299,7 +324,7 @@ class TeliaPlay():
         request = {
             "GET": {
                 "scheme": "https",
-                "host": "graphql-telia.t6a.net",
+                "host": "graphql-cmore.t6a.net",
                 "filename": "/graphql",
                 "query": {
                     "operationName": "getTvChannel",
@@ -335,7 +360,7 @@ class TeliaPlay():
         request = {
             "GET": {
                 "scheme": "https",
-                "host": "graphql-telia.t6a.net",
+                "host": "graphql-cmore.t6a.net",
                 "filename": "/graphql",
                 "query": {
                     "operationName": "getStorePage",
@@ -370,7 +395,7 @@ class TeliaPlay():
         request = {
             "GET": {
                 "scheme": "https",
-                "host": "graphql-telia.t6a.net",
+                "host": "graphql-cmore.t6a.net",
                 "filename": "/graphql",
                 "query": {
                     "operationName": "getPanel",
@@ -413,7 +438,7 @@ class TeliaPlay():
         request = {
             "GET": {
                 "scheme": "https",
-                "host": "graphql-telia.t6a.net",
+                "host": "graphql-cmore.t6a.net",
                 "filename": "/graphql",
                 "query": {
                     "operationName": "getSeries",
@@ -447,7 +472,7 @@ class TeliaPlay():
         request = {
             "GET": {
                 "scheme": "https",
-                "host": "graphql-telia.t6a.net",
+                "host": "graphql-cmore.t6a.net",
                 "filename": "/graphql",
                 "query": {
                     "operationName": "getSeason",
@@ -479,13 +504,13 @@ class TeliaPlay():
             request, headers=headers
         ).json()
         error_check(response_json)
-        return response_json["data"]["season"]["episodes"]["episodeItems"]
+        return response_json["data"]["season"]["episodes"]["episodeList"]
 
     def validate_stream(self):
         request = {
             "POST": {
                 "scheme": "https",
-                "host": "tvclientgateway-telia.clientapi-prod.live.tv.telia.net",
+                "host": "tvclientgateway-cmore.clientapi-prod.live.tv.telia.net",
                 "filename": "/tvclientgateway/rest/secure/v1/provision"
             }
         }
@@ -560,7 +585,7 @@ class TeliaPlay():
         request = {
             "POST": {
                 "scheme": "https",
-                "host": "graphql-telia.t6a.net",
+                "host": "graphql-cmore.t6a.net",
                 "filename": "/graphql"
             }
         }
@@ -593,7 +618,7 @@ class TeliaPlay():
         request = {
             "POST": {
                 "scheme": "https",
-                "host": "graphql-telia.t6a.net",
+                "host": "graphql-cmore.t6a.net",
                 "filename": "/graphql"
             }
         }
@@ -626,7 +651,7 @@ class TeliaPlay():
         request = {
             "POST": {
                 "scheme": "https",
-                "host": "streaminggateway-telia.clientapi-prod.live.tv.telia.net",
+                "host": "streaminggateway-cmore.clientapi-prod.live.tv.telia.net",
                 "filename": "/streaminggateway/rest/secure/v2/streamingticket/"
                 "{0}/{1}".format(
                     "CHANNEL" if stream_type == "live" else "MEDIA", stream_id),
@@ -644,9 +669,11 @@ class TeliaPlay():
         }
         payload = {
             "sessionId": self.session_id,
-            "whiteLabelBrand": "TELIA",
-            "watchMode": "LIVE" if stream_type == "live" else "ONDEMAND" if
-            stream_type == "rental" else "TRAILER" if stream_type == "trailer" else "STARTOVER",
+            "whiteLabelBrand": "CMORE",
+            # FIXME: Is there a need for more types than ONDEMAND, as in the original plugin?
+            # "watchMode": "LIVE" if stream_type == "live" else "ONDEMAND" if
+            # stream_type == "rental" else "TRAILER" if stream_type == "trailer" else "STARTOVER",
+            "watchMode": "ONDEMAND",
             "accessControl": "TRANSACTION" if stream_type == "rental" else "SUBSCRIPTION",
             "device": {
                 "deviceId": self.device_id,
@@ -676,11 +703,12 @@ class TeliaPlay():
         request = {
             "DELETE": {
                 "scheme": "https",
-                "host": "streaminggateway-telia.clientapi-prod.live.tv.telia.net",
-                "filename": "/streaminggateway/rest/secure/v2/streamingticket/CHANNEL/18",
+                "host": "streaminggateway-cmore.clientapi-prod.live.tv.telia.net",
+                "filename":
+                "/streaminggateway/rest/secure/v2/streamingticket/MEDIA",
                 "query": {
                     "sessionId": self.session_id,
-                    "whiteLabelBrand": "TELIA",
+                    "whiteLabelBrand": "CMORE",
                     "country": "SE"
                 }
             }
