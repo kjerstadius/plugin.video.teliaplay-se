@@ -52,6 +52,11 @@ class MenuList():
             "pass" + self.addon.get_setting("defaultUser")
         )
 
+        if username == "" or password == "":
+            # FIXME: Add text to localization
+            Dialog().ok("Login Information Required", "In order for the plugin to function correctly, please enter your login information in the plugin settings")
+            self.addon.addon.openSettings()
+
         self.search_history = SearchHistory(username)
         userdata = self.userdata_handler.get(username)
 
