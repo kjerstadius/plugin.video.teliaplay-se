@@ -11,13 +11,13 @@ class WebUtils():
     def __init__(self):
         self.session = requests.session()
 
-    def make_request(self, request, headers=None, payload=None):
+    def make_request(self, request, headers=None, payload=None, params=None):
         url = self.extract_url(request)
         method = list(request.keys())[0]
         if method == "GET":
-            response = self.session.get(url, headers=headers, json=payload)
+            response = self.session.get(url, headers=headers, json=payload, params=params)
         elif method == "POST":
-            response = self.session.post(url, headers=headers, json=payload)
+            response = self.session.post(url, headers=headers, json=payload, params=params)
         elif method == "DELETE":
             response = self.session.delete(url, headers=headers, json=payload)
         else:
