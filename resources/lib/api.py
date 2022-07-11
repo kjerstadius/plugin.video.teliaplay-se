@@ -155,13 +155,14 @@ class TeliaPlay():
         request = {
             "POST": {
                 "scheme": "https",
-                "host": "ottapi.prod.telia.net",
-                "filename": "/web/se/logingateway/rest/v1/login/refresh"
+                "host": "logingateway.cmore.se",
+                "filename": "/logingateway/rest/v1/login/refresh"
             }
         }
         headers = {
             "User-Agent": "kodi.tv",
-            "tv-client-boot-id": self.tv_client_boot_id
+            "tv-client-boot-id": self.tv_client_boot_id,
+            "x-country": "SE"
         }
         payload = {
             "deviceId": self.device_id,
