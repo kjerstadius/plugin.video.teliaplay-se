@@ -43,11 +43,11 @@ class TeliaPlay():
     def graphql_hashes(self):
        return {
             "getMainMenu":      "90954cfc4db13a9e1112c7d22542a9b9889aa01afe9b28092a4a0b11e6e614ec",
-            "search":           "8218df034301124f881e349b4f4e8111e61226aee5a02540cfbc82ac3c94de7d",
-            "getPage":          "d0784fb82be313f3debe778ba9ba007932b7caba905cd3055300f66435c0719f",
-            "getSubPages":      "00777a446930f94454d3cb4a87520351c6111a95c820b99c962ee18f01bb14e4",
-            "getTvChannels":    "9a5c15f0c6c309246dbc1372e27f7895854a65510e101ad18b993ddb2986380f",
-            "getTvChannel":     "7594972abd54f20f737ba7f023b106183139da4ddaf3171f869da523710a4d87",
+            "search":           "c98f5ac1cc29dba38cdbc32d722944e55fe89a16ded5116a00fd6f0cafea8164",
+            "getPage":          "8515eaa6389e80a48e76a18d558a3dfc6987425dc049426a8e75cc86f4b246f7",
+            "getSubPages":      "bdab7591b0d717c748d366592b6009a76cd46764fa0d100a6e0a2ab023691d71",
+            "getTvChannels":    "eac2953c16d1077ef980b003c21b779d18b0d9b912c2cdb2a797be5d14865bba",
+            "getTvChannel":     "dc6745d8e00726941f6bef40de7fcb28335027cbd404fe0fe16bd933359d3012",
             "getStorePage":     "e2297df5af0241be95800fbb6758b502808cd00de3e10fdaed865e308e499f4e",
             "getPanel":         "e84056d0414d789040452548a5ce4d85429f30196bf9a221924914298a0bd1e4",
             "getSeries":        "e467e21aef3edca23e14dd6ef5e5f601638df6205a225d22624b16d3a0b7cdba",
