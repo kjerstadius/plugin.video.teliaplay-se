@@ -44,14 +44,14 @@ class TeliaPlay():
        return {
             "getMainMenu":      "90954cfc4db13a9e1112c7d22542a9b9889aa01afe9b28092a4a0b11e6e614ec",
             "search":           "c98f5ac1cc29dba38cdbc32d722944e55fe89a16ded5116a00fd6f0cafea8164",
-            "getPage":          "8515eaa6389e80a48e76a18d558a3dfc6987425dc049426a8e75cc86f4b246f7",
+            "getPage":          "cc78d4866b10298577c4c365cd9ada7fa40d30eeadc40fbe7601008533a1d881",
             "getSubPages":      "bdab7591b0d717c748d366592b6009a76cd46764fa0d100a6e0a2ab023691d71",
             "getTvChannels":    "eac2953c16d1077ef980b003c21b779d18b0d9b912c2cdb2a797be5d14865bba",
             "getTvChannel":     "dc6745d8e00726941f6bef40de7fcb28335027cbd404fe0fe16bd933359d3012",
             "getStorePage":     "e2297df5af0241be95800fbb6758b502808cd00de3e10fdaed865e308e499f4e",
             "getPanel":         "e84056d0414d789040452548a5ce4d85429f30196bf9a221924914298a0bd1e4",
-            "getSeries":        "e467e21aef3edca23e14dd6ef5e5f601638df6205a225d22624b16d3a0b7cdba",
-            "getSeason":        "d19b845cc50b009cac5af5e45b9c0ccdebc9c4b596aab2ad7ac43096a9126646",
+            "getCdpSeries":     "d080d339c5467d6eefc1fa95519c348efb385c08a568b9b03349525606515b7c",
+            "getCdpSeason":     "428f3fbd38a2089379e2d08400d4dc0eb5e6776b7b6eaecc1cf71299bb164742",
             "addToMyList":      "a8369da660da6f45e0eabd53756effcd4c40668f1794a853c298c29e7903c7f9",
             "removeFromMyList": "630c2f99d817682d4f15d41084cdc2f40dc158a5dae0bd2ab0e815ce268da277"
         }
